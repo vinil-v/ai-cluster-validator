@@ -223,18 +223,6 @@ To adapt this smoke test to another cluster shape:
 - The included DDP step is a smoke test, not a training benchmark.
 - For large clusters, run this as a first gate before deeper perf tools (NCCL-tests, allreduce microbenchmarks, model-level scaling runs).
 
-## Example verified run snapshot
-
-From your captured execution:
-
-- Master node: `ddpcluster-hpc-1`
-- Dynamic port: `53593`
-- World size: `16`
-- NCCL version observed: `2.29.7+cuda13.2`
-- Final status: `SUCCESS: DDP Multi-Node AllReduce Ring Complete!`
-
-This confirms that Slurm orchestration, multi-node NCCL collectives, GPU mapping, and core fabric discovery are all functioning in the tested environment.
-
 ## Complete reference output
 
 Use this full log as a known-good reference for structure and success markers.
@@ -325,3 +313,10 @@ Total Execution Ranks: 16
 
 NCCL version 2.29.7+cuda13.2
 ```
+This confirms that Slurm orchestration, multi-node NCCL collectives, GPU mapping, and core fabric discovery are all functioning in the tested environment.
+
+## Conclusion
+
+`ai-cluster-validator` provides a fast, repeatable userspace preflight for multi-GPU, multi-node AI clusters under Slurm. If the job reaches `SUCCESS: DDP Multi-Node AllReduce Ring Complete!` and the topology/environment sections match expected hardware and software state, the cluster is ready for distributed training bring-up.
+
+Use this as a standard gate after cluster provisioning, image updates, and driver/CUDA/NCCL changes to detect infrastructure regressions before expensive production runs.

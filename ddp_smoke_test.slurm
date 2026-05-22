@@ -3,8 +3,9 @@
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=8
 #SBATCH --gpus-per-node=8
-#SBATCH --cpus-per-task=12            
+#SBATCH --cpus-per-task=12          
 #SBATCH --output=ai_infra_smoke_test_%j.log
+#SBATCH --error=ai_infra_smoke_test_%j.err
 #SBATCH --partition=hpc
 
 # --- Activate Centralized NFS PyTorch Environment ---
@@ -53,5 +54,5 @@ srun --cpu-bind=none bash -c "
     source /shared/apps/pytorch_env/bin/activate;
     export RANK=\$SLURM_PROCID;
     export LOCAL_RANK=\$SLURM_LOCALID;
-    python3 02_ddp_mesh_ping.py
+    python3 ddp_mesh_ping.py
 "
